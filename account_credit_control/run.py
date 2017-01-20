@@ -29,7 +29,7 @@ class CreditControlRun(models.Model):
     """ Credit Control run generate all credit control lines and reject """
 
     _name = "credit.control.run"
-    _rec_name = 'date'
+    _rec_name = 'date desc'
     _description = "Credit control line generator"
 
     date = fields.Date(string='Controlling Date', required=True,
@@ -72,6 +72,11 @@ class CreditControlRun(models.Model):
              'manually',
         readonly=True,
         copy=False,
+    )
+    company_id = fields.Many2one(
+        'res.company', string='Company', required=True,
+        default=lambda self: self.env['res.company']._company_default_get(
+            'credit.control.run')
     )
 
     @api.multi
